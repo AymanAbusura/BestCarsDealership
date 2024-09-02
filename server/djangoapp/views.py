@@ -17,9 +17,6 @@ from .populate import initiate
 
 
 # Get an instance of a logger
-logout(request)
-data = {"userName":""}
-return JsonResponse(data)
 
 logger = logging.getLogger(__name__)
 
@@ -43,8 +40,16 @@ def login_user(request):
     return JsonResponse(data)
 
 # Create a `logout_request` view to handle sign out request
-# def logout_request(request):
-# ...
+def logout_request(request):
+    # Get the username of the currently logged-in user
+    username = request.user.username if request.user.is_authenticated else ''
+    
+    # Log out the user
+    logout(request)
+    
+    # Prepare and return the JSON response
+    data = {"userName": username}
+    return JsonResponse(data)
 
 # Create a `registration` view to handle sign up request
 # @csrf_exempt
